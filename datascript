@@ -1,0 +1,16 @@
+#!/bin/bash
+
+apt -y update
+apt -y upgrade
+aws configure --profile mgavrilov
+aws s3 ls --profile mgavrilov
+salt-key -F
+salt-key -A
+systemctl daemon-reload
+systemctl restart salt-master.service
+apt -y install jq
+curl 'https://api.github.com/repos/stedolan/jq/commits?per_page=5'
+curl 'https://api.github.com/repos/stedolan/jq/commits?per_page=5' | jq '.'
+aws ec2 describe-instances --profile mgavrilov | jq '.'
+systemctl status salt-master.service
+consul members
